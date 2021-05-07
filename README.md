@@ -7,5 +7,14 @@ Continuum robots, which are biologically inspired and organic compliant structur
 # Research Purpose
 At the Continuum Robotics Laboratory at University of Toronto, we create innovative continuum robot designs with novel features. To test our continuum robots and validate our models, algorithms, and controllers, we perform experiments on the bench-top and observe the robot's performance using different sensors. The aim of this research project is to implement calibration and computer-vision algorithms for an existing multi-camera system to capture the motion and sense the shape of tendon-driven continuum robots.
 
+# Project Outcomes
+The following functionalities have to be implemented using Python or C++ using OpenCV and Qt:
+- Run, save, and load extrinsic and intrinsic camera calibration for a set of three cameras
+- Capture images and movies from up to three cameras simultaneously
+- Extraction a depth map from the images
+- Segmentation of tendon-driven continuum robot features (e.g. spacer disks)
+- Determining the pose of the continuum robot's tip and its shape
+- Building a GUI encompassing the above
+
 ## Presentations
 - [State of the Art](https://docs.google.com/presentation/d/1KUIQfTkrYJrEYH9h86QRs4NgSrWIPhfqEkEYPvq-XTY/edit?usp=sharing)
