@@ -8,7 +8,14 @@
 
 
 # Arithmetic Operations on images
-- when blending two images, the shape of both must be the same (and resized otherwise) when using </mark> dst = cv2.addWeighted(img1,0.5,resized_img2,0.3,0) </mark>
+- when blending two images, the shape of both must be the same (and resized otherwise) when using:
+<table>
+<tr>
+<td>
+   <pre lang="python">
+   dst = cv2.addWeighted(img1,0.5,resized_img2,0.3,0)
+   </pre>
+</td>
 
 
 # Performance Measurement and Improvement Techniques
