@@ -2,7 +2,12 @@
 ## May 11th, 2021.
 
 # Loading and displaying an image
-
+- image loading (imread): gets image from path
+- image showing (imshow): prints image- varying function syntax from google collab [cv_imshow vs cv.imshow]
+- making image greyscale (set final param in imread to 0)
+- image saving (imwrite)
+- image pixel access
+- image pixel editing (img.item and img.itemset)
 
 # Basic Operations on images
 - image properties (shape, size, dtype)
