@@ -9,7 +9,6 @@
 
 # Arithmetic Operations on images
 - when blending two images, the shape of both must be the same (and resized otherwise) when using:
-<table>
 <tr>
 <td>
    <pre lang="python">
