@@ -1,8 +1,8 @@
 # [Image Processing](https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_geometric_transformations/py_geometric_transformations.html#geometric-transformations)
 
 ## Changing Colorspaces
-## Geometric Transformations of Images
 ## Image Thresholding
+## Geometric Transformations of Images
 ## Smoothing Images
 ## Morphological Transformations
 ## Image Gradients
