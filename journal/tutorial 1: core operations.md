@@ -13,7 +13,3 @@
 
 # Performance Measurement and Improvement Techniques
 
-
-# Mathematical Tools in OpenCV
-
-
