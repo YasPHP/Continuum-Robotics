@@ -16,6 +16,8 @@
 </td>
 
 
+<code> dst = cv2.addWeighted(img1,0.5,resized_img2,0.3,0) </code>
+
 # Performance Measurement and Improvement Techniques
 
 
