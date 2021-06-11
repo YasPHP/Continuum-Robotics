@@ -18,4 +18,4 @@ The following functionalities have to be implemented using Python or C++ using O
 
 ## Links
 - [State of the Art](https://docs.google.com/presentation/d/1KUIQfTkrYJrEYH9h86QRs4NgSrWIPhfqEkEYPvq-XTY/edit?usp=sharing)
-- [Journal]()
+- [Journal](https://docs.google.com/document/d/1CyAVqjSZbK8LlLNESrIe_CeDBRzSGpMibFqUTEYHJQY/edit?usp=sharing)
