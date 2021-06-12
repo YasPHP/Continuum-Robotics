@@ -4,6 +4,30 @@ import numpy as np
 import os
 
 
+def findArucoMarkers(img, markerSize=6, totalMarkers=250, draw=True):
+    # converting image to gray
+    imgGray= cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+    # customized ArUco Dictionary key
+    key = getattr(aruco, f'DICT_{markerSize}X{markerSize}_{totalMarkers}')
+
+    # defining the ArUco Dictionary
+    arucoDict = aruco.Dictionary_get(key)
+    arucoParam = aruco.DetectorParameters_create()
+    bboxs, ids, rejected = aruco.detectMarkers(imgGray,
+                                               arucoDict,
+                                               parameters=arucoParam)
+
+    # prints ids of arUco markers detected
+    print(ids)
+
+    # draws boundary boxes around detected arUco markers
+    if draw:
+        aruco.drawDetectedMarkers(img, bboxs)
+
+
+
+
 def main():
     # opens live video camera
     # NOTE: built-in camera is 0, multiple cameras are scaled to 1, 2, 3, etc.
@@ -13,6 +37,8 @@ def main():
         # loop continuously reading frame-by-frame
         success, frame = cap.read()
         if success:
+            # find the aruco markers in the image frame (img/frame)
+            findArucoMarkers(frame)
             # a frame was successfully read
             # show camera feed in a window
             cv2.imshow("Live Video", frame)
