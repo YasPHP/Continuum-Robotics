@@ -4,10 +4,13 @@ import numpy as np
 import os
 
 
+# from pathlib import Path
+# # import glob
+# # import os
+
 def findArucoMarkers(img, markerSize=6, totalMarkers=250, draw=True):
     """
     Returns the found ArUco markers in a frame with details.
-
     :param img: the image where the aruco markers exist
     :param markerSize: the size of the markers
     :param totalMarkers: the total number of markers (in chosen ArUco DICT version)
@@ -30,9 +33,9 @@ def findArucoMarkers(img, markerSize=6, totalMarkers=250, draw=True):
     # prints ids of arUco markers detected
     # print(ids)
 
-    # draws boundary boxes around detected arUco markers
+    # draws boundary boxes and ids around detected arUco markers
     if draw:
-        aruco.drawDetectedMarkers(img, bboxs)
+        aruco.drawDetectedMarkers(img, bboxs, ids)
 
     return [bboxs, ids]
 
