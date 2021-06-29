@@ -11,7 +11,7 @@ Created by Omar Padierna "Para11ax" on Jan 1 2019
 '''
 
 
-import cv2
+import cv2 as cv
 import numpy as np
 import glob
 from tqdm import tqdm
@@ -45,24 +45,29 @@ calibration_paths = glob.glob('./calibimgs/*')
 for image_path in tqdm(calibration_paths):
 
 	#Load image
-	image = cv2.imread(image_path)
-	gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+	image = cv.imread(image_path)
+	gray_image = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
 	print("Image loaded, Analizying...")
 	#find chessboard corners
-	ret,corners = cv2.findChessboardCorners(gray_image, chessboard_size, None)
+	ret,corners = cv.findChessboardCorners(gray_image, chessboard_size, None)
 
 	if ret == True:
 		print("Chessboard detected!")
 		print(image_path)
 		#define criteria for subpixel accuracy
-		criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
+		criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 30, 0.001)
 		#refine corner location (to subpixel accuracy) based on criteria.
-		cv2.cornerSubPix(gray_image, corners, (5,5), (-1,-1), criteria)
+		corners2 = cv.cornerSubPix(gray_image, corners, (5,5), (-1,-1), criteria)
 		obj_points.append(objp)
 		img_points.append(corners)
 
+		# Draw and display the corners
+		cv.drawChessboardCorners(image, chessboard_size, corners2, ret)
+		cv.imshow('chessboard calibration', image)
+		cv.waitKey(1000)
+
 #Calibrate camera
-ret, K, dist, rvecs, tvecs = cv2.calibrateCamera(obj_points, img_points,gray_image.shape[::-1], None, None)
+ret, K, dist, rvecs, tvecs = cv.calibrateCamera(obj_points, img_points,gray_image.shape[::-1], None, None)
 
 # #Save parameters into numpy file
 # np.save("./camera_params/ret", ret)
@@ -98,8 +103,8 @@ print('=Ret Value=\n', ret, '\n')
 #Calculate projection error.
 mean_error = 0
 for i in range(len(obj_points)):
-	img_points2, _ = cv2.projectPoints(obj_points[i],rvecs[i],tvecs[i], K, dist)
-	error = cv2.norm(img_points[i], img_points2, cv2.NORM_L2)/len(img_points2)
+	img_points2, _ = cv.projectPoints(obj_points[i],rvecs[i],tvecs[i], K, dist)
+	error = cv.norm(img_points[i], img_points2, cv.NORM_L2)/len(img_points2)
 	mean_error += error
 
 # output final re-projection error
