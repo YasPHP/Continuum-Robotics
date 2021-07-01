@@ -1,14 +1,3 @@
-'''
-Created by Omar Padierna "Para11ax" on Jan 1 2019
- This program is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-'''
 
 
 import cv2 as cv
@@ -39,7 +28,10 @@ objp[:,:2] = np.mgrid[0:chessboard_size[0], 0:chessboard_size[1]].T.reshape(-1,2
 
 #read images
 
-calibration_paths = glob.glob('./calibimgs/*')
+# calibration_paths = glob.glob('./calibimgs/*')
+# calibration_paths = glob.glob('./calibimgs_cam1/*')
+# calibration_paths = glob.glob('./calibimgs_cam2/*')
+calibration_paths = glob.glob('./calibimgs_cam3/*')
 
 #Iterate over images to find intrinsic matrix
 for image_path in tqdm(calibration_paths):
@@ -99,6 +91,33 @@ print('=Ret Value=\n', ret, '\n')
 #
 # #Save focal length
 # np.save("./camera_params/FocalLength", focal_length)
+
+
+
+img = cv.imread('/Users/yasmeen/Desktop/side_project_cabin/ContinuumRoboticsLab/calibimgs_cam3/pic1_cam3.png')
+cv.imshow('pic1_cam3.png', img)
+
+h,  w = img.shape[:2]
+
+# Returns the new camera intrinsic matrix based on the free scaling parameter.
+newCameraMatrix, roi = cv.getOptimalNewCameraMatrix(K, dist, (w,h), 1, (w,h))
+
+
+
+# UNDISTORTION TYPES
+
+# METHOD 1
+# easiest method: call undistort function and use ROI obtained to crop the result.
+dst = cv.undistort(img, K, dist, None, newCameraMatrix)
+
+# cropping the image with the ROI
+x, y, w, h = roi
+dst = dst[y:y+h, x:x+w]
+cv.imwrite('calibratedImg1.png', dst)
+
+
+
+
 
 #Calculate projection error.
 mean_error = 0
