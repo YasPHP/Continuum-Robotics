@@ -16,15 +16,15 @@ bboxs = [] # DOUBLE CHECK DUPLICACY
 
 # ======= IMAGE PREPROCESSING PARAMETERS ======= #
 # chose camera 1 & 3 image dataset from lab b/c 46.08% overlap similarity
-img_path_cam1 = glob.glob('./calibimgs_cam1/*')
-img_path_cam3 = glob.glob('./calibimgs_cam3/*')
+img_path_cam1 = glob.glob('./calibimgs_cam1_COPY/*')
+img_path_cam3 = glob.glob('./calibimgs_cam3_COPY/*')
 
 # GONNA HAVE TO FIX THIS PARAM AND SEE HOW IT PLAYS OUT AS A GLOBAL OR LOCAL VARIABLE IN SOME ALL-ENCOMPASSING FUNCTION B/C IT'S REQUIRED 4 SEVERAL FUNCTIONS
 img1 = cv.imread(img_path_cam1[-5], cv.IMREAD_GRAYSCALE)    # 7th pic
 img2 = cv.imread(img_path_cam3[-6], cv.IMREAD_GRAYSCALE)    # 7th pic
 
 
-# ======= STEREORECTIFICATION PARAMETERS ======= #
+# ======= STEREO RECTIFICATION PARAMETERS ======= #
 good = []
 pts1 = []
 pts2 = []
@@ -32,7 +32,10 @@ pts2 = []
 
 
 
-# ========================= PREPROCESSING ========================= #
+
+
+
+# ======== PHASE 2: PREPROCESSING (FEATURE MATCHING & KEYPOINT DETECTION) ======== #
 
 def compareOrigImgs(img_path_cam1: str, img_path_cam3:str):
     """
@@ -46,29 +49,28 @@ def compareOrigImgs(img_path_cam1: str, img_path_cam3:str):
     compareOrigImgs(img_path_cam1, img_path_cam3)
     """
 
-    img1 = cv.imread(img_path_cam1[-5], cv.IMREAD_GRAYSCALE)    # 7th pic
-    img2 = cv.imread(img_path_cam3[-6], cv.IMREAD_GRAYSCALE)    # 7th pic
+    # iterates through both camera version's pics simultaneously
+    for i in range(1, 15):
+        img1 = cv.imread(f'calibimgs_cam1_COPY/{i}.png', cv.IMREAD_GRAYSCALE)
+        img2 = cv.imread(f'calibimgs_cam3_COPY/{i}.png', cv.IMREAD_GRAYSCALE)
 
-    # cv.imshow("Camera 1 (Image 1)", img1)
-    # cv.imshow("Camera 3 (Image 1)", img2)
+        # cv.waitKey(0) # waits until a key is pressed
+        # cv.destroyAllWindows() # destroys the window showing image
 
-    # cv.waitKey(0) # waits until a key is pressed
-    # cv.destroyAllWindows() # destroys the window showing image
+        # Compare unprocessed images (a visual)
+        fig, axes = plt.subplots(1, 2, figsize=(15, 10))
+        axes[0].imshow(img1, cmap="gray")
+        axes[1].imshow(img2, cmap="gray")
 
-    # Compare unprocessed images (a visual)
-    fig, axes = plt.subplots(1, 2, figsize=(15, 10))
-    axes[0].imshow(img1, cmap="gray")
-    axes[1].imshow(img2, cmap="gray")
+        # img 1 lines (top & bottom bound respectively)
+        axes[0].axhline(400)
+        axes[0].axhline(850)
 
-    # img 1 lines (top & bottom bound respectively)
-    axes[0].axhline(400)
-    axes[0].axhline(850)
-
-    # img 2 lines (top & bottom bound respectively)
-    axes[1].axhline(340)
-    axes[1].axhline(900)
-    plt.suptitle("Original Images Comparison")
-    plt.show()
+        # img 2 lines (top & bottom bound respectively)
+        axes[1].axhline(340)
+        axes[1].axhline(900)
+        plt.suptitle("Original Images Comparison")
+        plt.show()
 
 
 def matchDetectedKeypoints(img1: str, img2: str):
@@ -81,6 +83,7 @@ def matchDetectedKeypoints(img1: str, img2: str):
     :param img1: the image from camera 1
     :param img2: the image from camera 2
     """
+
 
     # Initiate SIFT detector
     sift = cv.SIFT_create()
@@ -134,20 +137,24 @@ def matchDetectedKeypoints(img1: str, img2: str):
 
     keypoint_matches = cv.drawMatchesKnn(
         img1, kp1, img2, kp2, matches, None, **draw_params)
+
     cv.imshow("Keypoint Matches", keypoint_matches)
     cv.imwrite("keypoint_matches.png", keypoint_matches)
 
 
 
-# ========================= STEREORECTIFICATION ========================= #
-
+# ======== PHASE 3: EPIPOLAR GEOMETRY ======== #
 
 def calculateFundamentalMatrix(pts1: List, pts2: List):
     """
-    Calculates the fundamental matrix for the cameras.
+    Calculates the fundamental matrix for the cameras based off the keypoint pairs between the two cameras.
 
-    :param pts1:
-    :param pts2:
+    :param pts1: keypoint pair from camera 1.
+    :param pts2: keypoint pair from camera 2.
+
+    # BASE CASE TESTING DOC TESTS (run these two)
+    matchDetectedKeypoints(img1, img2)
+    calculateFundamentalMatrix(pts1, pts2)
     """
 
     # Calculate the fundamental matrix for the cameras
@@ -160,6 +167,7 @@ def calculateFundamentalMatrix(pts1: List, pts2: List):
     pts1 = pts1[inliers.ravel() == 1]
     pts2 = pts2[inliers.ravel() == 1]
 
+    print(fundamental_matrix)
     return fundamental_matrix
 
 
@@ -192,7 +200,7 @@ def drawlines(img1src, img2src, lines, pts1src, pts2src):
     return img1color, img2color
 
 
-def computeEpilines(fundamental_matrix: Callable):
+def computeEpilines(fundamental_matrix: List):
     """
     Compute and find the epilines corresponding to points in both images.
     """
@@ -223,52 +231,60 @@ def computeEpilines(fundamental_matrix: Callable):
 
 
 
-# # CONTINUE!!!!!!!!!!!!!!!!!!!!
-#
-# # Stereo rectification (uncalibrated variant)
-# # Adapted from: https://stackoverflow.com/a/62607343
-# h1, w1 = img1.shape
-# h2, w2 = img2.shape
-# _, H1, H2 = cv.stereoRectifyUncalibrated(
-#     np.float32(pts1), np.float32(pts2), fundamental_matrix, imgSize=(w1, h1)
-# )
 
 
-# do camera projection matrix calibration calaculations here (instead of above) : get rvecs calcs from camera calibration (so do this first for
-# each camera and then input to get these 2 params: https://stackoverflow.com/questions/16101747/how-can-i-get-the-camera-projection-matrix-out-of-calibratecamera-return-value )
+# ======== PHASE 4: STEREO RECTIFICATION ======== #
+
+def rectifyImgs(img1: str, img2: str, fundamental_matrix: List):
+    """
+
+    :param img1:
+    :param img2:
+    :return:
+    """
+
+    # Stereo rectification (uncalibrated variant)
+    # Adapted from: https://stackoverflow.com/a/62607343
+
+    # NOTE: using the uncalibrated method to get the H1, H2 parameters has no influence on the overall calibration status, just used to get those parameters
+
+    h1, w1 = img1.shape
+    h2, w2 = img2.shape
+    _, H1, H2 = cv.stereoRectifyUncalibrated(
+        np.float32(pts1), np.float32(pts2), fundamental_matrix, imgSize=(w1, h1)
+    )
+
+    # Rectify (undistort) the images and save them
+    # Adapted from: https://stackoverflow.com/a/62607343
+    img1_rectified = cv.warpPerspective(img1, H1, (w1, h1))
+    img2_rectified = cv.warpPerspective(img2, H2, (w2, h2))
+    cv.imwrite("rectified_1.png", img1_rectified)
+    cv.imwrite("rectified_2.png", img2_rectified)
+
+    # Draw the rectified images
+    fig, axes = plt.subplots(1, 2, figsize=(15, 10))
+    axes[0].imshow(img1_rectified, cmap="gray")
+    axes[1].imshow(img2_rectified, cmap="gray")
+    axes[0].axhline(1190)
+    axes[1].axhline(1190)
+    axes[0].axhline(2950)
+    axes[1].axhline(2950)
+    plt.suptitle("Rectified images")
+    plt.savefig("rectified_images.png")
+    plt.show()
 
 
 
 
 
 
-# # Rectify (undistort) the images and save them
-# # Adapted from: https://stackoverflow.com/a/62607343
-# img1_rectified = cv.warpPerspective(img1, H1, (w1, h1))
-# img2_rectified = cv.warpPerspective(img2, H2, (w2, h2))
-# cv.imwrite("rectified_1.png", img1_rectified)
-# cv.imwrite("rectified_2.png", img2_rectified)
-#
-# # Draw the rectified images
-# fig, axes = plt.subplots(1, 2, figsize=(15, 10))
-# axes[0].imshow(img1_rectified, cmap="gray")
-# axes[1].imshow(img2_rectified, cmap="gray")
-# axes[0].axhline(1190)
-# axes[1].axhline(1190)
-# axes[0].axhline(2950)
-# axes[1].axhline(2950)
-# plt.suptitle("Rectified images")
-# plt.savefig("rectified_images.png")
-# plt.show()
 
 
 
 
+# ======== PHASE 5: ARUCO MARKER DETECTION ======== #
 
-
-# ========================= ARUCO DETECTION ========================= #
-
-def iterateImg(img_folder_path: str):
+def iterateImg():   # (img_folder_path: str):
     """
     Returns the found ArUco markers in multiple frames through iteration
 
@@ -276,27 +292,37 @@ def iterateImg(img_folder_path: str):
 
     # BASE CASE TESTING DOC TESTS (run these two)
     img_folder_path = glob.glob('./aruco_imgs/*')
+    iterateImg(img_folder_path)
     """
 
-    # Iterate over images to find intrinsic matrix
-    for image_path in tqdm(img_folder_path):
-        # Load image
-        image = cv.imread(image_path)
-        gray_image = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
+    # iterates through both camera version's pics simultaneously (+1 to end of range b/c non-inclusive)
+    for i in range(1, 5):
 
-        detectAruco(image, markerSize, totalMarkers, draw)
+        # USE THIS VERSION WHEN YOU GET THE RECTIFIED IMAGES LOADED INTO THE FOLDERS
+        # img1 = cv.imread(f'rectified_imgs_cam1/{i}.png')
+        # img2 = cv.imread(f'rectified_imgs_cam3/{i}.png')
 
+        # TEMPORARY PLACEHOLDER (W/ NON-RECTIFIED IMAGES) FOR ABOVE
+        img1 = cv.imread(f'arucoimgs_cam1/{i}.png')
+        img2 = cv.imread(f'arucoimgs_cam3/{i}.png')
+
+        # projPoints1 & 3 are the detected array of Aruco marker corners in each image
+        projPoints1 = detectAruco(img1, markerSize=6, totalMarkers=250, draw=True)
+        projPoints3 = detectAruco(img2, markerSize=6, totalMarkers=250, draw=True)
+
+        print(projPoints1)
+        print(projPoints3)
 
 
 def detectAruco(img: str, markerSize: int, totalMarkers: int, draw: bool):
     """
-    Returns the found ArUco markers in a frame with details.
+    Returns the four corners of each detected ArUco marker in a frame and draws boundary boxes with an arUco ID.
 
     :param img: the image where the aruco markers exist
     :param markerSize: the size of the markers
     :param totalMarkers: the total number of markers (in chosen ArUco DICT version)
     :param draw: the bboxes drawn around the detected markers
-    :return: the detected bboxes and aruco id of the detected markers
+    :return: the four detected corners of each detected marker and draws bboxes with an aruco id
 
     # BASE CASE TESTING DOC TESTS (run these two)
     img = cv.imread('aruco markers plate.png')
@@ -324,6 +350,7 @@ def detectAruco(img: str, markerSize: int, totalMarkers: int, draw: bool):
     if draw:
         detected_markers = aruco.drawDetectedMarkers(img, bboxs, ids)
 
+    # prints the arUco marker's detected bounding box and id on the img window directly
     print([bboxs, ids])
 
     # outputs a window with the detected aruco markers
@@ -331,39 +358,73 @@ def detectAruco(img: str, markerSize: int, totalMarkers: int, draw: bool):
     cv.waitKey(0)
 
 
-    # check for a key pressed event and break the camera loop
-    k = cv.waitKey(5) & 0xFF
-
-    # click the escape button on keyboard to exit camera view
-    if k == ESC_KEY:
-        # closes the webcam window
-        cv.destroyAllWindows()
-
-    # frame wasn't read, handle that problem:
-    else:
-        # closes the webcam window
-        cv.destroyAllWindows()
-
-
-
-
-def getArucoCoordinates(bboxs, id, img):
-    """
-    Gets the coordinates of each detected arUco marker in an img.
-
-    :param bbox: the boundary box of the aruco marker (four corner points)
-    :param id: the id of the overlaid image to be displayed
-    :param img: the image that will be drawn on top of
-    :param imgAug: the displayed image over top the aruco marker
-    :param drawId: the id displayed over top the aruco marker
-    :return: the image frame with the augmented image overlaid
-    """
-
     # gets the four corners of the aruco marker
-    top_left = bboxs[0][0][0], bboxs[0][0][1]
-    top_right = bboxs[0][1][0], bboxs[0][1][1]
-    bottom_right = bboxs[0][2][0], bboxs[0][2][1]
-    bottom_left = bboxs[0][3][0], bboxs[0][3][1]
+    top_left = bboxs[0][0][0] # bboxs[0][0][1]
+    top_right = bboxs[0][0][1] # bboxs[0][1][1]
+    bottom_right = bboxs[0][0][2] # bboxs[0][2][1]
+    bottom_left = bboxs[0][0][3] # bboxs[0][3][1]
+
+    # ouputs the coordinates of each detected arUco marker's four corners
+    return [top_left, top_right, bottom_right, bottom_left]
+
+
+
+
+
+# ======== PHASE 6: PROJECTION MATRICES ======== #
+
+
+
+# # projMatr1 & 2 are the calculated matrices separately for cams 1 & 3
+#
+# # PROJECTION MATRICES (CAMERA 1)
+# rotation_mat_cam1 = np.zeros(shape=(3, 3))
+# R_cam1 = cv.Rodrigues(rvecs_cam1[0], rotation_mat_cam1)[0]
+# projMatr1 = np.column_stack((np.matmul(K_cam1,R_cam1), tvecs_cam1[0]))
+#
+# # PROJECTION MATRICES (CAMERA 3)
+# rotation_mat_cam3 = np.zeros(shape=(3, 3))
+# R_cam3 = cv.Rodrigues(rvecs_cam3[0], rotation_mat_cam3)[0]
+# projMatr3 = np.column_stack((np.matmul(K_cam3,R_cam3), tvecs_cam3[0]))
+#
+# print("Project Matrix 1")
+# print (projMatr1)
+#
+# print("Project Matrix 3")
+# print (projMatr3)
+
+
+
+
+
+
+# ======== PHASE 7: TRIANGULATION & 3D COORDINATES ======== #
+
+# # The function reconstructs 3-dimensional points (in homogeneous coordinates) by using their observations with a stereo camera.
+# cv.triangulatePoints(projMatr1, projMatr3, projPoints1, projPoints3)
+#
+# # plot the x,y,z coords from triangulate ouput to a matplot graph
+
+
+
+# FINAL STEP: MULTI-CAMERA SETUP BUT BEFORE IS STEREOVISION
+# LAST STEP: ADDITIONAL CO-ORD POINT AVERAGING: TO GET THREE CAMERAS VIEW
+# TAKE AVERAGE COORDINATION MATRIX OF BOTH TRIANGULATE POINTS VERSIONS
+# cv.triangulatePoints(projMatr1, projMatr2, projPoints1, projPoints2)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -374,7 +435,19 @@ if __name__ == "__main__":
     # matchDetectedKeypoints(img1, img2)
     # compareOrigImgs(img_path_cam1, img_path_cam3)
 
-    img_folder_path = glob.glob('./TDCR_imgs/*')
-    iterateImg(img_folder_path)
+    # img_folder_path = glob.glob('./TDCR_imgs/*')
+    # iterateImg(img_folder_path)
+
+    # img = cv.imread('sift_keypoints_1.png')
+    # detectAruco(img, markerSize=6, totalMarkers=250, draw=True)
+
+    # works but NOT OUPUTTING IMAGES ON SCREEN
+    # matchDetectedKeypoints(img1, img2)
+
+    iterateImg()
+
+
+
+
 
 
