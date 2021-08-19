@@ -22,3 +22,44 @@ The following functionalities have to be implemented using Python or C++ using O
 - [Journal](https://docs.google.com/document/d/1CyAVqjSZbK8LlLNESrIe_CeDBRzSGpMibFqUTEYHJQY/edit?usp=sharing)
 - [Undergraduate Research Poster]()
 
+
+
+
+# Get Started
+Clone this repository and install the other dependencies with ```pip```:
+```
+git clone https://github.com/YasPHP/CRL.git
+cd CRL
+pip install -U -r requirements.txt
+```
+
+# Multi-Camera System (Stereovision pairs)
+
+- Note: to escape each python script's steps, either press 'x' on the popped up window each time and then the 'esc' key twice when the detected ArUco marker screen pops up at the end (as there is no 'x'/minimize/maximize screen option for those last two outputted images).
+- You know you will have reached the end of each program, when the terminal outputs the TDCR's final ArUco Marker Coordinates matrix!
+
+## Run Camera 1 & 2 Program
+```
+python cam1and2.py
+```
+
+## Run Camera 1 & 3 Program
+```
+python cam1and3.py
+```
+
+## Run Camera 2 & 3 Program
+```
+python cam2and3.py
+```
+
+# ArUco Markers
+- Print out these [ArUco Markers](https://github.com/YasPHP/CRL/tree/main/aruco_markers) for future TDCR detection tests
+- Generate your own ArUco markers [here](https://chev.me/arucogen/)
+
+# Credited Tutorial Sources
+- [OpenCV Tutorial Series and StackExchange](https://docs.opencv.org/master/d3/d81/tutorial_contrib_root.html)
+- [St. Pölten University of Applied Sciences Computer Vision](https://www.andreasjakl.com/understand-and-apply-stereo-rectification-for-depth-maps-part-2/)
+- [The Carnegie Mellon Robotics Institute](https://www.cs.cmu.edu/ 16385/lectures/lecture13.pdf)
+- [Camera Calibration on Medium](https://medium.com/analytics-vidhya/camera-calibration-with-opencv-f324679c6eb7)
+
