@@ -377,7 +377,7 @@ _, H1, H2 = cv.stereoRectifyUncalibrated(
 # Adapted from: https://stackoverflow.com/a/62607343
 img1_rectified = cv.warpPerspective(img1, H1, (w1, h1))
 img2_rectified = cv.warpPerspective(img2, H2, (w2, h2))
-cv.imwrite("rectified_1.png", img1_rectified)                       # FOR LOOP IT AND LOAD THE RECTIFIED IMAGES TO THE RECTFIFIED_IMGS_CAM# FOLDERS
+cv.imwrite("rectified_1.png", img1_rectified)             
 cv.imwrite("rectified_2.png", img2_rectified)
 
 # Draw the rectified images
