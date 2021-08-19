@@ -1,4 +1,0 @@
-opencv-contrib-python
-numpy
-pandas
-matplotlib
