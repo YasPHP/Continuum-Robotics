@@ -55,6 +55,18 @@ python cam1and3.py
 python cam2and3.py
 ```
 
+# Multi-n-Camera System Extension
+## Run Individual methods
+```
+python test_functions.py
+```
+
+## Initialize n Cameras
+```
+python calibrate.py
+```
+
+
 # ArUco Markers
 - Print out these [ArUco Markers](https://github.com/YasPHP/CRL/tree/main/aruco_markers) for future TDCR detection tests
 - Generate your own ArUco markers [here](https://chev.me/arucogen/)
