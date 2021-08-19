@@ -18,9 +18,11 @@ The following functionalities have to be implemented using Python or C++ using O
 
 ## Links
 - [State of the Art](https://docs.google.com/presentation/d/1KUIQfTkrYJrEYH9h86QRs4NgSrWIPhfqEkEYPvq-XTY/edit?usp=sharing)
-- [Intermediate Poster](https://docs.google.com/presentation/d/1RT5F-ng_JTA60MQ3RYI30OvNvZX3M8dQOKFBXEosT2o/edit?usp=sharing)
+- [Intermediate Presentation](https://docs.google.com/presentation/d/1RT5F-ng_JTA60MQ3RYI30OvNvZX3M8dQOKFBXEosT2o/edit?usp=sharing)
+- [Final Presentation](https://docs.google.com/presentation/d/14V83sBujteqvNrxjuqr8CkWf_xnvpeKI6Qa8R-Xt6EE/edit?usp=sharing)
 - [Journal](https://docs.google.com/document/d/1CyAVqjSZbK8LlLNESrIe_CeDBRzSGpMibFqUTEYHJQY/edit?usp=sharing)
-- [Undergraduate Research Poster]()
+- [Undergraduate Research Poster](https://github.com/YasPHP/CRL/blob/main/data/results/SmartiGras%202021%20Yasmeen%20Hmaidan%20Poster%20.png)
+- [ROP Report](https://github.com/YasPHP/CRL/blob/main/data/results/CRL%20ROP%20Report%202021%20Yasmeen%20Hmaidan.pdf)
 
 
 
@@ -33,7 +35,7 @@ cd CRL
 pip install -U -r requirements.txt
 ```
 
-# Multi-Camera System (Stereovision pairs)
+# Multi-Camera System (Stereovision Camera Pairs)
 
 - Note: to escape each python script's steps, either press 'x' on the popped up window each time and then the 'esc' key twice when the detected ArUco marker screen pops up at the end (as there is no 'x'/minimize/maximize screen option for those last two outputted images).
 - You know you will have reached the end of each program, when the terminal outputs the TDCR's final ArUco Marker Coordinates matrix!
