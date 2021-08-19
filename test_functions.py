@@ -436,49 +436,6 @@ if __name__ == "__main__":
     # img = cv.imread('rectified_1.png')
     # detectAruco(img, markerSize=6, totalMarkers=250, draw=True)
 
-    # works but NOT OUPUTTING IMAGES ON SCREEN
-    # matchDetectedKeypoints(img1, img2)
-
-    # iterateImg()
-
-    # path_1 = r'/Users/yasmeen/Desktop/side_project_cabin/ContinuumRoboticsLab/rectified_1.png'
-    # path_3 = r'/Users/yasmeen/Desktop/side_project_cabin/ContinuumRoboticsLab/rectified_2.png'
-    #
-    # img_test_1 = cv.imread(path_1)
-    # # img_test_3 = cv.imread(path_3)
-    #
-    # # ORIGINAL BELOW
-    # # rectified_img_cam1 = cv.imread(img1_rectified)
-    # # rectified_img_cam2 = cv.imread(img2_rectified)
-    #
-    # # # projPoints1 & 3 are the detected array of Aruco marker corners in each image
-    # # projPoints1 = detectAruco(rectified_img_cam1, markerSize=6, totalMarkers=250, draw=True)
-    # # projPoints3 = detectAruco(rectified_img_cam2, markerSize=6, totalMarkers=250, draw=True)
-    #
-    # # manually converted into a numpy array
-    # projPoints1 = np.array(detectAruco(img_test_1, markerSize=6, totalMarkers=250, draw=True))
-    # projPoints3 = np.array(detectAruco(img_test_1, markerSize=6, totalMarkers=250, draw=True))
-    #
-    # # # projPoints1 & 3 are the detected array of Aruco marker corners in each image
-    # # projPoints1 = detectAruco(orig_img_cam1, markerSize=6, totalMarkers=250, draw=True)
-    # # projPoints3 = detectAruco(orig_img_cam3, markerSize=6, totalMarkers=250, draw=True)
-    #
-    # print(projPoints1)
-    # print(projPoints3)
-    # print(type(projPoints1))
-    # print(type(projPoints3))
-    # print(projPoints1.shape)
-    # print(projPoints3.shape)
-
-
-    # triangulate.cpp:75: error: (-209:Sizes of input arguments do not match) Number of proj points coordinates must be == 2 in function 'icvTriangulatePoints'
-    # the shape is tho:
-    # (4, 2)
-    # (4, 2)
-
-    # img = cv.imread('TEST3part2.png')   # VERSION 5 DETECTS ALL ARUCO MARKERS!!!!! from aruco_imgs_NEW
-    # img = cv.imread('aruco1_1_1.png')
-
     # img = cv.imread('rectified_1.png')
     # detectAruco(img, markerSize=6, totalMarkers=250, draw=True)
 
@@ -489,9 +446,5 @@ if __name__ == "__main__":
     img1 = cv.imread(path_1)
     img2 = cv.imread(path_2)
     matchDetectedKeypoints(img1, img2)
-
-
-
-
 
 
