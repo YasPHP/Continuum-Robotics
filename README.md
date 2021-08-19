@@ -62,6 +62,6 @@ python cam2and3.py
 # Credited Tutorial Sources
 - [OpenCV Tutorial Series and StackExchange](https://docs.opencv.org/master/d3/d81/tutorial_contrib_root.html)
 - [St. Pölten University of Applied Sciences Computer Vision](https://www.andreasjakl.com/understand-and-apply-stereo-rectification-for-depth-maps-part-2/)
-- [The Carnegie Mellon Robotics Institute](https://www.cs.cmu.edu/ 16385/lectures/lecture13.pdf)
+- [The Carnegie Mellon Robotics Institute](https://www.cs.cmu.edu/16385/lectures/lecture13.pdf)
 - [Camera Calibration on Medium](https://medium.com/analytics-vidhya/camera-calibration-with-opencv-f324679c6eb7)
 
