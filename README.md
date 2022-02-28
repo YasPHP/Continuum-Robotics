@@ -11,7 +11,7 @@ At the Continuum Robotics Laboratory at University of Toronto, we create innovat
 
 Demo video: 
 
-[![](https://youtu.be/0yfp1_y0DcI)]
+[![](https://img.youtube.com/vi/0yfp1_y0DcI/0.jpg)](https://youtu.be/0yfp1_y0DcI)
 
 # Project Outcomes
 The following functionalities have to be implemented using Python or C++ using OpenCV and Qt:
