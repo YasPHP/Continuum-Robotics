@@ -9,7 +9,7 @@ At the Continuum Robotics Laboratory at University of Toronto, we create innovat
 
 ![Research Poster](https://github.com/YasPHP/Continuum-Robotics/blob/main/data/results/UofT%20Research%20Poster.png)
 
-Demo video: 
+Undergraduate Research Symposium Presentation:
 
 [![](https://img.youtube.com/vi/0yfp1_y0DcI/0.jpg)](https://youtu.be/0yfp1_y0DcI)
 
