@@ -9,6 +9,10 @@ At the Continuum Robotics Laboratory at University of Toronto, we create innovat
 
 ![Research Poster](https://github.com/YasPHP/Continuum-Robotics/blob/main/data/results/UofT%20Research%20Poster.png)
 
+Demo video: 
+
+[![](https://youtu.be/0yfp1_y0DcI)
+
 # Project Outcomes
 The following functionalities have to be implemented using Python or C++ using OpenCV and Qt:
 - Run, save, and load extrinsic and intrinsic camera calibration for a set of three cameras
