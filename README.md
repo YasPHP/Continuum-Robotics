@@ -22,7 +22,7 @@ The following functionalities have to be implemented using Python or C++ using O
 - Determining the pose of the continuum robot's tip and its shape
 - Building a GUI encompassing the above
 
-## Links
+## Research Documentation
 - [State of the Art](https://docs.google.com/presentation/d/1KUIQfTkrYJrEYH9h86QRs4NgSrWIPhfqEkEYPvq-XTY/edit?usp=sharing)
 - [Intermediate Presentation](https://docs.google.com/presentation/d/1RT5F-ng_JTA60MQ3RYI30OvNvZX3M8dQOKFBXEosT2o/edit?usp=sharing)
 - [Final Presentation](https://docs.google.com/presentation/d/14V83sBujteqvNrxjuqr8CkWf_xnvpeKI6Qa8R-Xt6EE/edit?usp=sharing)
